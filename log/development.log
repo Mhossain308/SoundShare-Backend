@@ -1048,3 +1048,80 @@ FOREIGN KEY ("user_id")
   [1m[35m (1.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
   [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" /* loading for inspect */ LIMIT ?[0m  [["LIMIT", 11]]
   [1m[36mSong Load (0.4ms)[0m  [1m[34mSELECT "songs".* FROM "songs" /* loading for inspect */ LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" /* loading for inspect */ LIMIT ?[0m  [["LIMIT", 11]]
+Started GET "/playlists/1" for ::1 at 2021-03-30 11:38:07 -0400
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by PlaylistsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPlaylist Load (0.5ms)[0m  [1m[34mSELECT "playlists".* FROM "playlists" WHERE "playlists"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/playlists_controller.rb:13:in `show'
+[active_model_serializers]   [1m[36mPlaylistSong Load (0.9ms)[0m  [1m[34mSELECT "playlist_songs".* FROM "playlist_songs" WHERE "playlist_songs"."playlist_id" = ?[0m  [["playlist_id", 1]]
+[active_model_serializers]   ↳ app/controllers/playlists_controller.rb:14:in `show'
+[active_model_serializers]   [1m[36mSong Load (0.5ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+[active_model_serializers]   ↳ app/controllers/playlists_controller.rb:14:in `show'
+[active_model_serializers]   [1m[36mSong Load (0.1ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+[active_model_serializers]   ↳ app/controllers/playlists_controller.rb:14:in `show'
+[active_model_serializers] Rendered PlaylistSerializer with ActiveModelSerializers::Adapter::Attributes (84.77ms)
+Completed 200 OK in 171ms (Views: 117.7ms | ActiveRecord: 4.8ms | Allocations: 26344)
+
+
+Started GET "/users/1" for ::1 at 2021-03-30 11:38:27 -0400
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+[active_model_serializers]   [1m[36mPlaylist Load (2.5ms)[0m  [1m[34mSELECT "playlists".* FROM "playlists" WHERE "playlists"."user_id" = ?[0m  [["user_id", 1]]
+[active_model_serializers]   ↳ app/controllers/users_controller.rb:14:in `show'
+[active_model_serializers]   [1m[36mPlaylistSong Load (0.2ms)[0m  [1m[34mSELECT "playlist_songs".* FROM "playlist_songs" WHERE "playlist_songs"."playlist_id" = ?[0m  [["playlist_id", 1]]
+[active_model_serializers]   ↳ app/controllers/users_controller.rb:14:in `show'
+[active_model_serializers]   [1m[36mPlaylistSong Load (0.2ms)[0m  [1m[34mSELECT "playlist_songs".* FROM "playlist_songs" WHERE "playlist_songs"."playlist_id" = ?[0m  [["playlist_id", 2]]
+[active_model_serializers]   ↳ app/controllers/users_controller.rb:14:in `show'
+[active_model_serializers]   [1m[36mSong Load (0.3ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+[active_model_serializers]   ↳ app/controllers/users_controller.rb:14:in `show'
+[active_model_serializers]   [1m[36mSong Load (0.2ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+[active_model_serializers]   ↳ app/controllers/users_controller.rb:14:in `show'
+[active_model_serializers]   [1m[36mSong Load (2.5ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+[active_model_serializers]   ↳ app/controllers/users_controller.rb:14:in `show'
+[active_model_serializers]   [1m[36mSong Load (0.3ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+[active_model_serializers]   ↳ app/controllers/users_controller.rb:14:in `show'
+[active_model_serializers] Rendered UserSerializer with ActiveModelSerializers::Adapter::Attributes (51.8ms)
+Completed 200 OK in 88ms (Views: 63.6ms | ActiveRecord: 7.6ms | Allocations: 12382)
+
+
+Started GET "/playlists/1" for ::1 at 2021-03-30 11:42:08 -0400
+Processing by PlaylistsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPlaylist Load (0.3ms)[0m  [1m[34mSELECT "playlists".* FROM "playlists" WHERE "playlists"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/playlists_controller.rb:13:in `show'
+[active_model_serializers]   [1m[36mPlaylistSong Load (0.1ms)[0m  [1m[34mSELECT "playlist_songs".* FROM "playlist_songs" WHERE "playlist_songs"."playlist_id" = ?[0m  [["playlist_id", 1]]
+[active_model_serializers]   ↳ app/controllers/playlists_controller.rb:14:in `show'
+[active_model_serializers]   [1m[36mSong Load (0.2ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+[active_model_serializers]   ↳ app/controllers/playlists_controller.rb:14:in `show'
+[active_model_serializers]   [1m[36mSong Load (0.3ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+[active_model_serializers]   ↳ app/controllers/playlists_controller.rb:14:in `show'
+[active_model_serializers] Rendered PlaylistSerializer with ActiveModelSerializers::Adapter::Attributes (15.11ms)
+Completed 200 OK in 18ms (Views: 15.1ms | ActiveRecord: 0.9ms | Allocations: 3888)
+
+
+Started GET "/playlist_songs" for ::1 at 2021-03-30 11:42:19 -0400
+Processing by PlaylistSongsController#index as HTML
+  [1m[36mPlaylistSong Load (0.2ms)[0m  [1m[34mSELECT "playlist_songs".* FROM "playlist_songs"[0m
+  ↳ app/controllers/playlist_songs_controller.rb:6:in `index'
+[active_model_serializers]   [1m[36mSong Load (0.2ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+[active_model_serializers]   ↳ app/controllers/playlist_songs_controller.rb:6:in `index'
+[active_model_serializers]   [1m[36mSong Load (1.8ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+[active_model_serializers]   ↳ app/controllers/playlist_songs_controller.rb:6:in `index'
+[active_model_serializers]   [1m[36mSong Load (0.1ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+[active_model_serializers]   ↳ app/controllers/playlist_songs_controller.rb:6:in `index'
+[active_model_serializers]   [1m[36mSong Load (0.1ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+[active_model_serializers]   ↳ app/controllers/playlist_songs_controller.rb:6:in `index'
+[active_model_serializers]   [1m[36mSong Load (0.1ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+[active_model_serializers]   ↳ app/controllers/playlist_songs_controller.rb:6:in `index'
+[active_model_serializers]   [1m[36mCACHE Song Load (0.0ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+[active_model_serializers]   ↳ app/controllers/playlist_songs_controller.rb:6:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (34.12ms)
+Completed 200 OK in 37ms (Views: 33.7ms | ActiveRecord: 2.8ms | Allocations: 7440)
+
+
