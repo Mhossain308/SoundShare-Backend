@@ -1,5 +1,5 @@
 class PlaylistSongsController < ApplicationController
-#Hello World
+#http://localhost:3000/playlist_songs --> Make sure underscore between playlist_songs
     def index
         @playlist_songs = PlaylistSong.all
         render json: @playlist_songs
