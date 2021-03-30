@@ -738,3 +738,313 @@ Processing by PlaylistsController#show as HTML
 Completed 200 OK in 10ms (Views: 6.5ms | ActiveRecord: 0.5ms | Allocations: 1800)
 
 
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" /* loading for inspect */ LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "playlist_songs"[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE TABLE "playlist_songs" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "playlist_id" integer NOT NULL, "song_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE INDEX "index_playlist_songs_on_playlist_id" ON "playlist_songs" ("playlist_id")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE INDEX "index_playlist_songs_on_song_id" ON "playlist_songs" ("song_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "playlists"[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "playlists" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "user_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE INDEX "index_playlists_on_user_id" ON "playlists" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "songs"[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "songs" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "artist" varchar, "genre" varchar, "link" varchar, "likes" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "users"[0m
+  [1m[35m (4.9ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aplaylist_songs" ("id" integer NOT NULL PRIMARY KEY, "playlist_id" integer NOT NULL, "song_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE INDEX "tindex_aplaylist_songs_on_song_id" ON "aplaylist_songs" ("song_id")[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE INDEX "tindex_aplaylist_songs_on_playlist_id" ON "aplaylist_songs" ("playlist_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aplaylist_songs" ("id","playlist_id","song_id","created_at","updated_at")
+                     SELECT "id","playlist_id","song_id","created_at","updated_at" FROM "playlist_songs"[0m
+  [1m[35m (1.2ms)[0m  [1m[35mDROP TABLE "playlist_songs"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "playlist_songs" ("id" integer NOT NULL PRIMARY KEY, "playlist_id" integer NOT NULL, "song_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_282ee7fa4c"
+FOREIGN KEY ("playlist_id")
+  REFERENCES "playlists" ("id")
+)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_playlist_songs_on_playlist_id" ON "playlist_songs" ("playlist_id")[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE INDEX "index_playlist_songs_on_song_id" ON "playlist_songs" ("song_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "playlist_songs" ("id","playlist_id","song_id","created_at","updated_at")
+                     SELECT "id","playlist_id","song_id","created_at","updated_at" FROM "aplaylist_songs"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "aplaylist_songs"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (1.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aplaylist_songs" ("id" integer NOT NULL PRIMARY KEY, "playlist_id" integer NOT NULL, "song_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "tindex_aplaylist_songs_on_song_id" ON "aplaylist_songs" ("song_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "tindex_aplaylist_songs_on_playlist_id" ON "aplaylist_songs" ("playlist_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[32mINSERT INTO "aplaylist_songs" ("id","playlist_id","song_id","created_at","updated_at")
+                     SELECT "id","playlist_id","song_id","created_at","updated_at" FROM "playlist_songs"[0m
+  [1m[35m (0.9ms)[0m  [1m[35mDROP TABLE "playlist_songs"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "playlist_songs" ("id" integer NOT NULL PRIMARY KEY, "playlist_id" integer NOT NULL, "song_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_282ee7fa4c"
+FOREIGN KEY ("playlist_id")
+  REFERENCES "playlists" ("id")
+, CONSTRAINT "fk_rails_4771edc43f"
+FOREIGN KEY ("song_id")
+  REFERENCES "songs" ("id")
+)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_playlist_songs_on_playlist_id" ON "playlist_songs" ("playlist_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_playlist_songs_on_song_id" ON "playlist_songs" ("song_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "playlist_songs" ("id","playlist_id","song_id","created_at","updated_at")
+                     SELECT "id","playlist_id","song_id","created_at","updated_at" FROM "aplaylist_songs"[0m
+  [1m[35m (0.7ms)[0m  [1m[35mDROP TABLE "aplaylist_songs"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (3.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aplaylists" ("id" integer NOT NULL PRIMARY KEY, "name" varchar DEFAULT NULL, "user_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "tindex_aplaylists_on_user_id" ON "aplaylists" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aplaylists" ("id","name","user_id","created_at","updated_at")
+                     SELECT "id","name","user_id","created_at","updated_at" FROM "playlists"[0m
+  [1m[35m (0.7ms)[0m  [1m[35mDROP TABLE "playlists"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "playlists" ("id" integer NOT NULL PRIMARY KEY, "name" varchar DEFAULT NULL, "user_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_d67ef1eb45"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_playlists_on_user_id" ON "playlists" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "playlists" ("id","name","user_id","created_at","updated_at")
+                     SELECT "id","name","user_id","created_at","updated_at" FROM "aplaylists"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mDROP TABLE "aplaylists"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20210330045713)[0m
+  [1m[35m (1.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20210330043948),
+(20210330045616),
+(20210330045649);
+
+[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.8ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-03-30 15:33:15.565866"], ["updated_at", "2021-03-30 15:33:15.565866"]]
+  [1m[36mTRANSACTION (1.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.6ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "schema_sha1"], ["value", "c18b9f77956070a059d745d7e867861746b43003"], ["created_at", "2021-03-30 15:33:15.590060"], ["updated_at", "2021-03-30 15:33:15.590060"]]
+  [1m[36mTRANSACTION (1.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "playlist_songs"[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "playlist_songs" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "playlist_id" integer NOT NULL, "song_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE INDEX "index_playlist_songs_on_playlist_id" ON "playlist_songs" ("playlist_id")[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE INDEX "index_playlist_songs_on_song_id" ON "playlist_songs" ("song_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "playlists"[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "playlists" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "user_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE INDEX "index_playlists_on_user_id" ON "playlists" ("user_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "songs"[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "songs" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "artist" varchar, "genre" varchar, "link" varchar, "likes" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "users"[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aplaylist_songs" ("id" integer NOT NULL PRIMARY KEY, "playlist_id" integer NOT NULL, "song_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "tindex_aplaylist_songs_on_song_id" ON "aplaylist_songs" ("song_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "tindex_aplaylist_songs_on_playlist_id" ON "aplaylist_songs" ("playlist_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aplaylist_songs" ("id","playlist_id","song_id","created_at","updated_at")
+                     SELECT "id","playlist_id","song_id","created_at","updated_at" FROM "playlist_songs"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE "playlist_songs"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "playlist_songs" ("id" integer NOT NULL PRIMARY KEY, "playlist_id" integer NOT NULL, "song_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_282ee7fa4c"
+FOREIGN KEY ("playlist_id")
+  REFERENCES "playlists" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_playlist_songs_on_playlist_id" ON "playlist_songs" ("playlist_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_playlist_songs_on_song_id" ON "playlist_songs" ("song_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "playlist_songs" ("id","playlist_id","song_id","created_at","updated_at")
+                     SELECT "id","playlist_id","song_id","created_at","updated_at" FROM "aplaylist_songs"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aplaylist_songs"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aplaylist_songs" ("id" integer NOT NULL PRIMARY KEY, "playlist_id" integer NOT NULL, "song_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_aplaylist_songs_on_song_id" ON "aplaylist_songs" ("song_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_aplaylist_songs_on_playlist_id" ON "aplaylist_songs" ("playlist_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aplaylist_songs" ("id","playlist_id","song_id","created_at","updated_at")
+                     SELECT "id","playlist_id","song_id","created_at","updated_at" FROM "playlist_songs"[0m
+  [1m[35m (0.7ms)[0m  [1m[35mDROP TABLE "playlist_songs"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "playlist_songs" ("id" integer NOT NULL PRIMARY KEY, "playlist_id" integer NOT NULL, "song_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_282ee7fa4c"
+FOREIGN KEY ("playlist_id")
+  REFERENCES "playlists" ("id")
+, CONSTRAINT "fk_rails_4771edc43f"
+FOREIGN KEY ("song_id")
+  REFERENCES "songs" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_playlist_songs_on_playlist_id" ON "playlist_songs" ("playlist_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_playlist_songs_on_song_id" ON "playlist_songs" ("song_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "playlist_songs" ("id","playlist_id","song_id","created_at","updated_at")
+                     SELECT "id","playlist_id","song_id","created_at","updated_at" FROM "aplaylist_songs"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aplaylist_songs"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aplaylists" ("id" integer NOT NULL PRIMARY KEY, "name" varchar DEFAULT NULL, "user_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_aplaylists_on_user_id" ON "aplaylists" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aplaylists" ("id","name","user_id","created_at","updated_at")
+                     SELECT "id","name","user_id","created_at","updated_at" FROM "playlists"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mDROP TABLE "playlists"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "playlists" ("id" integer NOT NULL PRIMARY KEY, "name" varchar DEFAULT NULL, "user_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_d67ef1eb45"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_playlists_on_user_id" ON "playlists" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "playlists" ("id","name","user_id","created_at","updated_at")
+                     SELECT "id","name","user_id","created_at","updated_at" FROM "aplaylists"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aplaylists"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (4.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20210330045713)[0m
+  [1m[35m (3.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20210330043948),
+(20210330045616),
+(20210330045649);
+
+[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-03-30 15:33:15.760247"], ["updated_at", "2021-03-30 15:33:15.760247"]]
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Update (0.5ms)[0m  [1m[33mUPDATE "ar_internal_metadata" SET "value" = ?, "updated_at" = ? WHERE "ar_internal_metadata"."key" = ?[0m  [["value", "test"], ["updated_at", "2021-03-30 15:33:15.771325"], ["key", "environment"]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.7ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "schema_sha1"], ["value", "c18b9f77956070a059d745d7e867861746b43003"], ["created_at", "2021-03-30 15:33:15.786266"], ["updated_at", "2021-03-30 15:33:15.786266"]]
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "Yu"], ["created_at", "2021-03-30 15:33:15.830055"], ["updated_at", "2021-03-30 15:33:15.830055"]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "Gus"], ["created_at", "2021-03-30 15:33:15.835744"], ["updated_at", "2021-03-30 15:33:15.835744"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "Mohamed"], ["created_at", "2021-03-30 15:33:15.839487"], ["updated_at", "2021-03-30 15:33:15.839487"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mPlaylist Create (0.8ms)[0m  [1m[32mINSERT INTO "playlists" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Workout"], ["user_id", 1], ["created_at", "2021-03-30 15:33:15.864645"], ["updated_at", "2021-03-30 15:33:15.864645"]]
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mPlaylist Create (1.2ms)[0m  [1m[32mINSERT INTO "playlists" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Coding"], ["user_id", 1], ["created_at", "2021-03-30 15:33:15.882507"], ["updated_at", "2021-03-30 15:33:15.882507"]]
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mPlaylist Create (0.3ms)[0m  [1m[32mINSERT INTO "playlists" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Gym"], ["user_id", 2], ["created_at", "2021-03-30 15:33:15.892595"], ["updated_at", "2021-03-30 15:33:15.892595"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mPlaylist Create (0.7ms)[0m  [1m[32mINSERT INTO "playlists" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Chilling"], ["user_id", 2], ["created_at", "2021-03-30 15:33:15.914368"], ["updated_at", "2021-03-30 15:33:15.914368"]]
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mPlaylist Create (0.5ms)[0m  [1m[32mINSERT INTO "playlists" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Shower"], ["user_id", 3], ["created_at", "2021-03-30 15:33:15.923489"], ["updated_at", "2021-03-30 15:33:15.923489"]]
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mPlaylist Create (1.4ms)[0m  [1m[32mINSERT INTO "playlists" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Walking"], ["user_id", 3], ["created_at", "2021-03-30 15:33:15.933092"], ["updated_at", "2021-03-30 15:33:15.933092"]]
+  [1m[36mTRANSACTION (1.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mPlaylist Create (0.7ms)[0m  [1m[32mINSERT INTO "playlists" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Sports"], ["user_id", 3], ["created_at", "2021-03-30 15:33:15.940971"], ["updated_at", "2021-03-30 15:33:15.940971"]]
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mSong Create (0.6ms)[0m  [1m[32mINSERT INTO "songs" ("title", "artist", "genre", "link", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["title", "Hotline Bling"], ["artist", "Drake"], ["genre", "Hip-Hop"], ["link", "https://www.youtube.com/watch?v=uxpDa-c-4Mc"], ["likes", 0], ["created_at", "2021-03-30 15:33:15.955768"], ["updated_at", "2021-03-30 15:33:15.955768"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mSong Create (0.4ms)[0m  [1m[32mINSERT INTO "songs" ("title", "artist", "genre", "link", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["title", "Started From The Bottom"], ["artist", "Drake"], ["genre", "Hip-Hop"], ["link", "https://www.youtube.com/watch?v=RubBzkZzpUA"], ["likes", 0], ["created_at", "2021-03-30 15:33:15.961107"], ["updated_at", "2021-03-30 15:33:15.961107"]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mSong Create (1.1ms)[0m  [1m[32mINSERT INTO "songs" ("title", "artist", "genre", "link", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["title", "Girl Like You ft.Cardi B"], ["artist", "Maroon 5"], ["genre", "Pop"], ["link", "https://www.youtube.com/watch?v=aJOTlE1K90k"], ["likes", 0], ["created_at", "2021-03-30 15:33:15.966906"], ["updated_at", "2021-03-30 15:33:15.966906"]]
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mSong Create (0.4ms)[0m  [1m[32mINSERT INTO "songs" ("title", "artist", "genre", "link", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["title", "Sugar"], ["artist", "Maroon 5"], ["genre", "Pop"], ["link", "https://www.youtube.com/watch?v=09R8_2nJtjg"], ["likes", 0], ["created_at", "2021-03-30 15:33:15.976406"], ["updated_at", "2021-03-30 15:33:15.976406"]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mSong Create (0.7ms)[0m  [1m[32mINSERT INTO "songs" ("title", "artist", "genre", "link", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["title", "This Love"], ["artist", "Maroon 5"], ["genre", "Pop"], ["link", "https://www.youtube.com/watch?v=XPpTgCho5ZA"], ["likes", 0], ["created_at", "2021-03-30 15:33:15.981408"], ["updated_at", "2021-03-30 15:33:15.981408"]]
+  [1m[36mTRANSACTION (1.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mSong Create (0.4ms)[0m  [1m[32mINSERT INTO "songs" ("title", "artist", "genre", "link", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["title", "Bleed"], ["artist", "A Boogie Wit da Hoodie"], ["genre", "Rap"], ["link", "https://www.youtube.com/watch?v=ZdhVDWcrh6c"], ["likes", 0], ["created_at", "2021-03-30 15:33:15.989429"], ["updated_at", "2021-03-30 15:33:15.989429"]]
+  [1m[36mTRANSACTION (1.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mSong Create (0.4ms)[0m  [1m[32mINSERT INTO "songs" ("title", "artist", "genre", "link", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["title", "Mood Swing"], ["artist", "A Boogie Wit da Hoodie"], ["genre", "Rap"], ["link", "https://www.youtube.com/watch?v=8-xqc0M8C6s"], ["likes", 0], ["created_at", "2021-03-30 15:33:15.995080"], ["updated_at", "2021-03-30 15:33:15.995080"]]
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPlaylist Load (0.2ms)[0m  [1m[34mSELECT "playlists".* FROM "playlists" WHERE "playlists"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mSong Load (0.2ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mPlaylistSong Create (0.5ms)[0m  [1m[32mINSERT INTO "playlist_songs" ("playlist_id", "song_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["playlist_id", 1], ["song_id", 1], ["created_at", "2021-03-30 15:33:16.014523"], ["updated_at", "2021-03-30 15:33:16.014523"]]
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPlaylist Load (0.3ms)[0m  [1m[34mSELECT "playlists".* FROM "playlists" WHERE "playlists"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mSong Load (0.1ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mPlaylistSong Create (0.4ms)[0m  [1m[32mINSERT INTO "playlist_songs" ("playlist_id", "song_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["playlist_id", 1], ["song_id", 6], ["created_at", "2021-03-30 15:33:16.028201"], ["updated_at", "2021-03-30 15:33:16.028201"]]
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPlaylist Load (0.3ms)[0m  [1m[34mSELECT "playlists".* FROM "playlists" WHERE "playlists"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mSong Load (0.1ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mPlaylistSong Create (0.6ms)[0m  [1m[32mINSERT INTO "playlist_songs" ("playlist_id", "song_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["playlist_id", 2], ["song_id", 3], ["created_at", "2021-03-30 15:33:16.039347"], ["updated_at", "2021-03-30 15:33:16.039347"]]
+  [1m[36mTRANSACTION (1.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPlaylist Load (0.2ms)[0m  [1m[34mSELECT "playlists".* FROM "playlists" WHERE "playlists"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mSong Load (0.1ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mPlaylistSong Create (0.5ms)[0m  [1m[32mINSERT INTO "playlist_songs" ("playlist_id", "song_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["playlist_id", 2], ["song_id", 4], ["created_at", "2021-03-30 15:33:16.050521"], ["updated_at", "2021-03-30 15:33:16.050521"]]
+  [1m[36mTRANSACTION (1.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPlaylist Load (0.1ms)[0m  [1m[34mSELECT "playlists".* FROM "playlists" WHERE "playlists"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mSong Load (0.1ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mPlaylistSong Create (0.4ms)[0m  [1m[32mINSERT INTO "playlist_songs" ("playlist_id", "song_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["playlist_id", 3], ["song_id", 5], ["created_at", "2021-03-30 15:33:16.059739"], ["updated_at", "2021-03-30 15:33:16.059739"]]
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPlaylist Load (0.4ms)[0m  [1m[34mSELECT "playlists".* FROM "playlists" WHERE "playlists"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mSong Load (0.2ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mPlaylistSong Create (0.8ms)[0m  [1m[32mINSERT INTO "playlist_songs" ("playlist_id", "song_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["playlist_id", 3], ["song_id", 6], ["created_at", "2021-03-30 15:33:16.075118"], ["updated_at", "2021-03-30 15:33:16.075118"]]
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" /* loading for inspect */ LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mSong Load (0.4ms)[0m  [1m[34mSELECT "songs".* FROM "songs" /* loading for inspect */ LIMIT ?[0m  [["LIMIT", 11]]
